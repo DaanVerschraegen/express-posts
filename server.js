@@ -17,7 +17,14 @@ app.get('/', (req, res) => {
 });
 
 // List all posts
-app.get('/posts', (req, res) => {});
+app.get('/posts', (req, res) => {
+	db.collection('posts').find().toArray((err, result) => {
+		if (err)
+			return console.log(err)
+		else
+			res.render('posts.ejs', {posts: result})
+	})
+});
 
 // Show the search form
 app.get('/search', (req, res) => {
@@ -25,4 +32,12 @@ app.get('/search', (req, res) => {
 });
 
 // Find all comments for post
-app.post('/search', (req, res) => {});
+app.post('/search', (req, res) => {
+	var query = { title: req.body.title }
+	db.collection('posts').find(query).toArray(function(err, result) {
+		if (err)
+			return console.log(err)
+		else
+			res.render('search_result.ejs', { post: result[0] })
+	});
+});
