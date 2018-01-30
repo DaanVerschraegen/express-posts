@@ -37,7 +37,8 @@ app.post('/search', (req, res) => {
 	db.collection('posts').find(query).toArray(function(err, result) {
 		if (err)
 			return console.log(err)
-		else
+		else {
 			res.render('search_result.ejs', { post: result[0] })
+		}		
 	});
 });
